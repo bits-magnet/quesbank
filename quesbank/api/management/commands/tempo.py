@@ -16,5 +16,5 @@ def process_image_file(question_html = ''):
         img['src'] = base_dir + splitext(basename(img['src']))[0]
     question_html = str(soup)
     print(question_html)
-
+    print(base_dir)
 process_image_file('''"questionHtml": "Complete the following multiplication table:<br \/>\r\n<img alt=\"\" src=\"img\/4_Q.png\" style=\"width: 424px; height: 234px;\" \/><br \/>\r\nIs the multiplication table symmetrical about the diagonal joining the upper left corner to the lower right corner?",''')
