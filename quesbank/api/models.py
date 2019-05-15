@@ -78,7 +78,7 @@ class Question(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     state = models.CharField(default='imported', max_length=50)
     level = models.IntegerField(default=0)
-    length = models.CharField(default='', max_length= 25)
+    length = models.CharField(default='', max_length=25)
 
     def __str__(self):
         return self.question_id
