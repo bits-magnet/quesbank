@@ -34,10 +34,10 @@ class Command(BaseCommand):
                 else:
                     subj = Subject.objects.create(standard=std, subject=subject)
                 for book in os.listdir(base_dir + '/books' + '/' + standard + '/' + subject):
-                    if len(Source.objects.filter(source=book)) > 0:
-                        source = Source.objects.get(source = book)
+                    if len(Source.objects.filter(standard = std, source_name=book)) > 0:
+                        source = Source.objects.get(standard = std, source_name = book)
                     else:
-                        source = Source.objects.create(source = book)
+                        source = Source.objects.create(standard = std, source_name = book)
                     for topics in os.listdir(
                             base_dir + '/books' + '/' + standard + '/' + subject + '/' + book + '/html'):
                         topic_id, topic_name = topics.split('_', 1)
@@ -54,8 +54,10 @@ class Command(BaseCommand):
                                         'r') as f:
                                     data = json.load(f)
                                     for jsonobject in data['data']:
-                                        question = Question.objects.create(topic=topic)
-                                        question.source = source
+                                        if len(InQuestion.objects.filter(topic=topic,  source = source, question_id = jsonobject['id'])) > 0:
+                                            question = InQuestion.objects.get(topic=topic, source = source, question_id = jsonobject['id'])
+                                        else:
+                                            question = InQuestion.objects.create(topic=topic, source=source, question_id=jsonobject['id'])
                                         try:
                                             question.question_id = jsonobject['id']
                                         except:
@@ -146,4 +148,4 @@ class Command(BaseCommand):
                                         except:
                                             pass
                                         question.save()
-
+                    print(book + 'migration complete')

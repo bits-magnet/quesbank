@@ -10,6 +10,8 @@ def getText(option, ques):
     else:
         return ques[ind:min(tab,newL)]
 
+
+# Input: Question and Solution Html
 def findOptions(ques, sol):
     ans = dict()
     ans['options'] = []
@@ -44,12 +46,3 @@ def findOptions(ques, sol):
                 if y in sol:
                     ans['correct'] = x[:3]
     return ans
-
-# Driver function to check
-if __name__ == '__main__':
-    ques = ''
-    sol = ''
-    ans = findOptions(ques, sol)
-
-    print(ans['options'])
-    print(ans['correct'])

@@ -46,8 +46,8 @@ class Topic(models.Model):
 
 class InQuestion(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    question_id = models.CharField(default='NA', max_length=100)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    question_id = models.CharField(default='NA', max_length=100)
     question_html = models.TextField(default='NA')
     solution_html = models.TextField(default='NA')
     is_publish = models.CharField(default='NA', max_length=10)
@@ -68,6 +68,7 @@ class InQuestion(models.Model):
     slo_map_id = models.CharField(default='NA', max_length=100)
     slo_mao_is_active = models.CharField(default='', max_length=10)
     exercise_name = models.CharField(default='NA', max_length=150)
+    question_level = models.IntegerField(default=0)
 
 
 class Question(models.Model):
@@ -81,13 +82,13 @@ class Question(models.Model):
     length = models.CharField(default='', max_length=25)
 
     def __str__(self):
-        return self.question_id
+        return self.state
 
 
 class SubjectiveQuestion(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    question_html = models.CharField(default='', max_length=10000)
-    solution_html = models.CharField(default='', max_length=10000)
+    question_html = models.CharField(default='', max_length=50000)
+    solution_html = models.CharField(default='', max_length=50000)
 
     def __str__(self):
         return self.question_html
@@ -95,9 +96,9 @@ class SubjectiveQuestion(models.Model):
 
 class ObjectiveQuestion(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    question_html = models.CharField(default='', max_length=10000)
-    solution_html = models.CharField(default='', max_length=10000)
-    options = ArrayField(models.CharField(max_length=500), blank=True)
+    question_html = models.CharField(default='', max_length=50000)
+    solution_html = models.CharField(default='', max_length=50000)
+    options = ArrayField(models.CharField(max_length=500), blank=True, null=True)
     correct_option = models.CharField(max_length=500)
 
     def __str__(self):
@@ -106,6 +107,6 @@ class ObjectiveQuestion(models.Model):
 
 # class FillInTheBlanksQuestion(models.Model):
 #     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     question_html = models.CharField(default='', max_length=10000)
-#     solution_html = models.CharField(default='', max_length=10000)
-#     correct_answer = models.CharField(default='', max_length=1000)
+#     question_html = models.CharField(default='', max_length=50000)
+#     solution_html = models.CharField(default='', max_length=50000)
+#     correct_answer = models.CharField(default='', max_length=3000)
