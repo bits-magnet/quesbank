@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" ng-app = "myApp">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- load bootstrap and fontawesome via CDN -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+
+    <!-- load angular via CDN -->
+        <script src="http://code.angularjs.org/1.3.0-rc.1/angular.min.js"></script>
+        <script src="http://code.angularjs.org/1.3.0/angular-route.js"></script>
+
+        <script>
+          var subjectId={{subjectId}};
+          var topicId = {{topicId}};
+        </script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-sanitize.js"></script>
+
+        <script src="{% static 'js/topic.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'css/topic.css' %}">
+  </head>
+  <body ng-controller="mainController">
+
+
+
+    <!-- NavBar -->
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+        
+
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </div>
+  </nav>
+  <div class="contain">
+
+    <h2>Topic Name : {% verbatim %} {{topic_name}}  {% endverbatim %} </h2>
+    <div>
+      <h3>Objective Question</h3>
+
+      <div class = "questionList">
+
+        <ul>
+          <li><a ng-click = "objective_new();" >New Created</a> {% verbatim %} {{ oq_new_created.length }}  {% endverbatim %} </li>
+          <li><a ng-click = "objective_duplicate();" >Duplicate</a>  {% verbatim %} {{ oq_duplicate.length }}  {% endverbatim %} </li>
+          <li><a ng-click = "objective_rejected();" >Rejected</a> {% verbatim %} {{ oq_rejected.length }}  {% endverbatim %} </li>
+        </ul>
+        
+
+      </div>
+
+      <h3>Subjective Question</h3>
+
+      <div class = "questionList">
+
+        <ul>
+          <li><a ng-click = "subjective_new();" >New Created</a> {% verbatim %} {{ sq_new_created.length }}  {% endverbatim %} </li>
+          <li><a ng-click = "subjective_duplicate();" >Duplicate</a> {% verbatim %} {{ sq_duplicate.length }}  {% endverbatim %} </li>
+          <li><a ng-click = "subjective_rejected();" >Rejected</a> {% verbatim %} {{ sq_rejected.length }}  {% endverbatim %} </li>
+        </ul>
+        
+
+      </div>
+    </div>
+
+
+    
+
+  </div>
+
+
+  </body>
+</html>

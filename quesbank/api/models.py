@@ -41,8 +41,7 @@ class Topic(models.Model):
     topic_id = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.topic
-
+        return '%d:' % (self.topic_id)
 
 class InQuestion(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
@@ -70,14 +69,16 @@ class InQuestion(models.Model):
     exercise_name = models.CharField(default='NA', max_length=150)
     question_level = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.question_html
 
 class Question(models.Model):
     inquestion = models.ForeignKey(InQuestion, on_delete=models.CASCADE)
-    type = models.CharField(default='NA', max_length=100)
+    question_type = models.CharField(default='NA', max_length=100)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    state = models.CharField(default='imported', max_length=50)
+    state = models.CharField(default='created', max_length=50)
     level = models.IntegerField(default=0)
     length = models.CharField(default='', max_length=25)
 
@@ -85,8 +86,7 @@ class Question(models.Model):
         return self.state
 
 
-class SubjectiveQuestion(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+class SubjectiveQuestion(Question):
     question_html = models.CharField(default='', max_length=50000)
     solution_html = models.CharField(default='', max_length=50000)
 
@@ -94,15 +94,36 @@ class SubjectiveQuestion(models.Model):
         return self.question_html
 
 
-class ObjectiveQuestion(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+class ObjectiveQuestion(Question):
     question_html = models.CharField(default='', max_length=50000)
     solution_html = models.CharField(default='', max_length=50000)
-    options = ArrayField(models.CharField(max_length=500), blank=True, null=True)
-    correct_option = models.CharField(max_length=500)
+    options = ArrayField(models.CharField(default='', max_length=500), blank=True, null=True)
+    correct_option = models.CharField(default='', max_length=500)
 
     def __str__(self):
         return self.question_html
+
+# result ->
+# [
+#     (1, [(2,80), (3,90), (5,70)]),
+#     (2, [(3,90), (5,60)]),
+# ]
+
+class SimilarSubjectiveQuestion(models.Model):
+    question = models.ForeignKey(SubjectiveQuestion,  related_name='question', on_delete= models.CASCADE)
+    similar_to_question = models.ForeignKey(SubjectiveQuestion, related_name='similar_to_question', on_delete=models.CASCADE)
+    similarity_percentage = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.question)
+
+class SimilarObjectiveQuestion(models.Model):
+    question = models.ForeignKey(ObjectiveQuestion, related_name='question', on_delete= models.CASCADE)
+    similar_to_question = models.ForeignKey(ObjectiveQuestion, related_name='similar_to_question' , on_delete=models.CASCADE)
+    similarity_percentage = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.question)
 
 
 # class FillInTheBlanksQuestion(models.Model):
@@ -110,3 +131,30 @@ class ObjectiveQuestion(models.Model):
 #     question_html = models.CharField(default='', max_length=50000)
 #     solution_html = models.CharField(default='', max_length=50000)
 #     correct_answer = models.CharField(default='', max_length=3000)
+
+
+class ArchievedQuestion(models.Model):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    question_id = models.CharField(default='NA', max_length=100)
+    question_html = models.TextField(default='NA')
+    solution_html = models.TextField(default='NA')
+    is_publish = models.CharField(default='NA', max_length=10)
+    is_active = models.CharField(default='NA', max_length=10)
+    tc_map_id = models.CharField(default='NA', max_length=100)
+    text_book_id = models.CharField(default='NA', max_length=100)
+    chapter_id = models.CharField(default='NA', max_length=100)
+    exercise_id = models.CharField(default='NA', max_length=100)
+    flow = models.CharField(default='NA', max_length=100)
+    set_no = models.CharField(default='NA', max_length=100)  # science
+    page_flow = models.CharField(default='NA', max_length=100)
+    page_no = models.CharField(default='NA', max_length=100)
+    question_no = models.CharField(default='NA', max_length=100)
+    exercise_flow = models.CharField(default='NA', max_length=100)
+    edition = models.CharField(default='NA', max_length=100)
+    tc_map_is_active = models.CharField(default='', max_length=10)
+    slo_id = models.CharField(default='NA', max_length=100)
+    slo_map_id = models.CharField(default='NA', max_length=100)
+    slo_mao_is_active = models.CharField(default='', max_length=10)
+    exercise_name = models.CharField(default='NA', max_length=150)
+    question_level = models.IntegerField(default=0)

@@ -1,5 +1,4 @@
 import string
-
 def getText(option, ques):
     ind = ques.find(option)
     newL = ques[ind:].find('<br')
@@ -8,13 +7,17 @@ def getText(option, ques):
     if tab == -1 and newL == -1:
         return ques[ind:]
     else:
-        return ques[ind:min(tab,newL)]
-
+        end = min(tab, newL)
+        if end == -1:
+            end = max(tab, newL)
+        end += ind
+        return ques[ind:end]
 
 # Input: Question and Solution Html
 def findOptions(ques, sol):
     ans = dict()
     ans['options'] = []
+    ans['correct'] = None
 
     alpha = string.ascii_lowercase
 
@@ -22,7 +25,7 @@ def findOptions(ques, sol):
         s = '(' + x + ')'
         if s in ques:
             opt = getText(s, ques)
-            ans['options'].append(opt)
+            ans['options'].append(opt.strip())
         else:
             break
 
@@ -46,3 +49,4 @@ def findOptions(ques, sol):
                 if y in sol:
                     ans['correct'] = x[:3]
     return ans
+

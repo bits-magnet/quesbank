@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = "myApp">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- load bootstrap and fontawesome via CDN -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+
+    <!-- load angular via CDN -->
+        <script src="http://code.angularjs.org/1.3.0-rc.1/angular.min.js"></script>
+        <script src="http://code.angularjs.org/1.3.0/angular-route.js"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-sanitize.js"></script>
+
+        <script src="app.js"></script>
+        <link rel="stylesheet" href="app.css">
+  </head>
+  <body ng-controller="mainController">
+
+
+
+    <!-- NavBar -->
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+        
+
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </div>
+  </nav>
+  <div class="contain">
+    <h3> Topic Name : {{topic_name}} </h3>
+    <h3> Subject : {{subject_name}} </h3>
+    <h4> {{type_of_question}} Question </h4>
+    <!--h1 ng-bind-html = "ans"> </h1-->
+        <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped" show-filter = "true">
+            <tr ng-repeat="i in data" ng-attr-id="i.id">
+
+                  <td data-title="'Question Id'"> {{i.id}} </td>
+                  <td data-title="'Question'"> <p ng-bind-html =  "i.topic"> </p> </td>
+
+                  <td data-title="'Solution'"> <p ng-bind-html = "i.topic_id"> </p> </td>
+
+                  <td data-title = "'Status'">
+                    <button type="button" name="Edit" ng-click = "editQuestion(i);" > Edit </button>
+                    <button type="button" name="See Duplicates" ng-click = "seeDuplicates(i);" > See Duplicates </button>
+                  </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+  </body>
+</html>

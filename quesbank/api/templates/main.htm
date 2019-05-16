@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" ng-app = "myApp">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- load bootstrap and fontawesome via CDN -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+
+    <!-- load angular via CDN -->
+        <script src="http://code.angularjs.org/1.3.0-rc.1/angular.min.js"></script>
+        <script src="http://code.angularjs.org/1.3.0/angular-route.js"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-sanitize.js"></script>
+
+        <script src="{% static 'js/main.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  </head>
+  <body ng-controller="mainController">
+
+
+
+    <!-- NavBar -->
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#"> Export </a></li>
+        </ul>
+        
+
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </div>
+  </nav>
+  <div class="contain">
+        <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped" show-filter = "true">
+            <tr ng-repeat="i in data" ng-attr-id="i.id">
+
+                  <td data-title="'Standard'"> {% verbatim %} {{i.standard.standard }}  {% endverbatim %} </td>
+                  <td data-title="'Subject'"> <p ng-bind-html =  "i.subject"></p> </td>
+                  <td data-title = "''">
+                    <button type="button" name="View" ng-click = "view_topics(i.id);" > View Topics </button>
+                  </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+  </body>
+</html>
+  

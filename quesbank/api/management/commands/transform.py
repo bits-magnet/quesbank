@@ -35,19 +35,18 @@ class Command(BaseCommand):
         print('completed predicting level for questions')
         questions = InQuestion.objects.all()
         for question in questions:
-            ques, updated  = Question.objects.get_or_create(inquestion = question, level = question.question_level, topic = question.topic)
-            ques.type = str(categorize(question.question_html, question.solution_html, question.exercise_name))
-            ques.length = findLength(question.solution_html)
-            ques.save()
-            if(ques.type == 'Subjective'):
-                subjective_question, updated = SubjectiveQuestion.objects.get_or_create(question = ques)
-                subjective_question.question_html = ques.inquestion.question_html
-                subjective_question.solution_html = ques.inquestion.solution_html
+            # ques, updated  = Question.objects.get_or_create(inquestion = question, level = question.question_level, topic = question.topic)
+            question_type = str(categorize(question.question_html, question.solution_html, question.exercise_name))
+            length = findLength(question.solution_html)
+            if(question_type == 'Subjective'):
+                subjective_question, updated = SubjectiveQuestion.objects.get_or_create(question_type = 'Subjective', length = length, inquestion = question, topic = question.topic)
+                subjective_question.question_html = question.question_html
+                subjective_question.solution_html = question.solution_html
                 subjective_question.save()
-            elif(ques.type == 'Objective'):
-                objective_question, updated = ObjectiveQuestion.objects.get_or_create(question = ques)
-                objective_question.question_html = ques.inquestion.question_html
-                objective_question.solution_html = ques.inquestion.solution_html
+            elif(question_type == 'Objective'):
+                objective_question, updated = ObjectiveQuestion.objects.get_or_create(question_type = 'Objective', length = length, inquestion = question, topic = question.topic)
+                objective_question.question_html = question.question_html
+                objective_question.solution_html = question.solution_html
                 result = findOptions(objective_question.question_html, objective_question.solution_html)
                 if(result['options'] != None):
                     objective_question.options = result['options']
@@ -59,7 +58,7 @@ class Command(BaseCommand):
                     else:
                         # print(ques.id, objective_question.question_html, '*' * 100)
                         objective_question.correct_option = ['no answer']
-                except:
-                    print(ques.id, objective_question.question_html, '*'*100 )
+                except Exception as e:
+                    print('ERROR OCCOURED ->', e, '*'*50)
                 objective_question.save()
-            print(str(ques.id) + 'Question categorised')
+        print(str(questions[0]) + 'Question categorised')

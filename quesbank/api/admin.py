@@ -15,11 +15,16 @@ class InQuestionAdmin(admin.ModelAdmin):
     list_filter = ('topic__subject__subject', 'topic', )
 
 
-class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('type', 'updated_at', 'inquestion')
-    search_fields = ['inquestion__question_html']
-    # list_filter = ('topic__subject__subject', 'topic', )
+# class QuestionAdmin(admin.ModelAdmin):
+#     list_display = ('type', 'updated_at', 'inquestion')
+#     search_fields = ['inquestion__question_html']
+#     # list_filter = ()
 
+
+class SubjectiveQuestionAdmin(admin.ModelAdmin):
+    list_display = ( 'question_html', 'solution_html')
+    search_fields = ['question_html']
+    list_filter = ('question_type', 'topic' )
 
 
 class SubjectAdmin(admin.ModelAdmin):
@@ -36,5 +41,8 @@ admin.site.register(Standard, StandardAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Topic, TopicAdmin)
 admin.site.register(InQuestion, InQuestionAdmin)
-admin.site.register(Question, QuestionAdmin)
+admin.site.register(Question)
 admin.site.register(ObjectiveQuestion)
+admin.site.register(SubjectiveQuestion, SubjectiveQuestionAdmin)
+admin.site.register(SimilarSubjectiveQuestion)
+admin.site.register(SimilarObjectiveQuestion)
