@@ -18,6 +18,11 @@
 
         <script src="{% static 'js/objective.js' %}"></script>
         <link rel="stylesheet" href="{% static 'css/objective.css' %}">
+      <style>
+          .modular {
+            width:100%;
+          }
+      </style>
   </head>
   <body ng-controller="mainController">
 
@@ -38,22 +43,22 @@
         </ul>
       </div>
   </nav>
-  <div class="contain">
+  <div class="contain modular">
     <h3> Topic Name : {% verbatim %} {{topic_name}} {% endverbatim %} </h3>
     <h3> Subject : {% verbatim %} {{subject_name}} {% endverbatim %}</h3>
     <h4> Objective Question </h4>
     <!--h1 ng-bind-html = "ans"> </h1-->
-        <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped" show-filter = "true">
+        <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped modular" show-filter = "true" style="width:100%">
             <tr ng-repeat="i in data" ng-attr-id="i.id">
 
                   <td data-title="'Question Id'"> {% verbatim %} {{i.id}} {% endverbatim %} </td>
-                  <td data-title="'Question'"> <p ng-bind-html =  "i.topic_id"></p> </td>
+                  <td data-title="'Question'"> <p ng-bind-html =  "i.question_html"></p> </td>
 
-                  <td data-title="'Solution'"> <p ng-bind-html = "i.topic"> </p> </td>
+                  <td data-title="'Solution'"> <p ng-bind-html = "i.solution_html"> </p> </td>
 
                   <td data-title = "'Status'">
-                    <button type="button" name="Edit" ng-click = "editQuestion(i);" > Edit </button>
-                    <button type="button" name="See Duplicates" ng-click = "seeDuplicates(i);" > See Duplicates </button>
+                    <button type="button" name="Edit" ng-click = "editQuestion(i.id);" > Edit </button>
+                    <button type="button" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
                   </td>
             </tr>
         </table>

@@ -6,7 +6,10 @@
         </head>
         <body>
 
-                <textarea name="editor1">{% for question in questions %}{{ question.solution_html }} <br>{% endfor %}</textarea>
+        <br>
+        <hr>
+        <h3>question html</h3>
+                <textarea name="editor1">{{ question.question_html }}</textarea>
                 <script>
                         CKEDITOR.replace( 'editor1' );
                 </script>

@@ -1,12 +1,12 @@
 var myApp = angular.module('myApp',['ngRoute','ngTable','ngSanitize']);
-var URL = "http://127.0.0.1:8000/api/topic/";
+var URL1 = "http://127.0.0.1:8000/api/subjective-question/";
 
 
 
 myApp.controller('mainController', ['$scope','$http','$location','NgTableParams','$window', function($scope, $http, $location, NgTableParams, $window) {
 
     var urlParameter = getUrlParameters();
-    getData($http,$scope,URL,urlParameter);
+    getData($http,$scope,URL1,urlParameter);
     console.log(urlParameter);
     $scope.tableParams = new NgTableParams({}, { dataset: $scope.data });
     $scope.topic_name = "topic";
@@ -44,7 +44,7 @@ function getUrlParameters() {
 function getData($http,$scope,URL,urlParameter) {
   $http({
     method : "GET",
-    url :  URL,
+    url :   "http://127.0.0.1:8000/api/subjective-question/",
     params : urlParameter,
   }).then(function (response,data) {
       console.log(response.data);

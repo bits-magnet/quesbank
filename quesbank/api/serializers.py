@@ -13,6 +13,7 @@ class TopicSerializer(serializers.ModelSerializer):
         model = Topic
         fields = '__all__'
 
+
 class SubjectSerializer(serializers.ModelSerializer):
     standard = StandardSerializer(read_only=True)
     topic = TopicSerializer(source='topic_set', many=True)
