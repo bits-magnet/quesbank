@@ -76,17 +76,13 @@ class InQuestion(models.Model):
 
 
 class Question(models.Model):
-    # CHOICES = (
-    #     (11, 'created'),
-    #     (12, 'imported'),
-    #     (13, 'duplicate'),
-    #     (14, 'rejected')
-    # )
     CHOICES = [
         ('created', 'created'),
         ('imported', 'imported'),
+        ('processed', 'processed'),
         ('duplicate', 'duplicate'),
-        ('rejected', 'rejected')
+        ('rejected', 'rejected'),
+        ('approved', 'approved')
     ]
     inquestion = models.ForeignKey(InQuestion, on_delete=models.CASCADE)
     question_type = models.CharField(default='NA', max_length=100)
@@ -125,7 +121,7 @@ class SimilarSubjectiveQuestion(models.Model):
     similarity_percentage = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.question)
+        return str(self.question.id) + " "+ str(self.similar_to_question.id)
 
 
 class SimilarObjectiveQuestion(models.Model):
@@ -137,31 +133,51 @@ class SimilarObjectiveQuestion(models.Model):
         return str(self.question)
 
 
-class ArchievedQuestion(models.Model):
+class ArchievedSubjectiveQuestion(models.Model):
+    CHOICES = [
+        ('created', 'created'),
+        ('imported', 'imported'),
+        ('processed', 'processed'),
+        ('duplicate', 'duplicate'),
+        ('rejected', 'rejected'),
+        ('approved', 'approved')
+    ]
+    inquestion = models.ForeignKey(InQuestion, on_delete=models.CASCADE)
+    question_type = models.CharField(default='NA', max_length=100)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    source = models.ForeignKey(Source, on_delete=models.CASCADE)
-    question_id = models.CharField(default='NA', max_length=100)
+    state = models.CharField(max_length=100, choices=CHOICES, default=CHOICES[0])
+    level = models.IntegerField(default=0)
+    length = models.CharField(default='', max_length=25)
     question_html = RichTextUploadingField()
     solution_html = RichTextUploadingField()
-    is_publish = models.CharField(default='NA', max_length=10)
-    is_active = models.CharField(default='NA', max_length=10)
-    tc_map_id = models.CharField(default='NA', max_length=100)
-    text_book_id = models.CharField(default='NA', max_length=100)
-    chapter_id = models.CharField(default='NA', max_length=100)
-    exercise_id = models.CharField(default='NA', max_length=100)
-    flow = models.CharField(default='NA', max_length=100)
-    set_no = models.CharField(default='NA', max_length=100)  # science
-    page_flow = models.CharField(default='NA', max_length=100)
-    page_no = models.CharField(default='NA', max_length=100)
-    question_no = models.CharField(default='NA', max_length=100)
-    exercise_flow = models.CharField(default='NA', max_length=100)
-    edition = models.CharField(default='NA', max_length=100)
-    tc_map_is_active = models.CharField(default='', max_length=10)
-    slo_id = models.CharField(default='NA', max_length=100)
-    slo_map_id = models.CharField(default='NA', max_length=100)
-    slo_mao_is_active = models.CharField(default='', max_length=10)
-    exercise_name = models.CharField(default='NA', max_length=150)
-    question_level = models.IntegerField(default=0)
+
+
+class ArchievedObjectiveQuestion(models.Model):
+    CHOICES = [
+        ('created', 'created'),
+        ('imported', 'imported'),
+        ('processed', 'processed'),
+        ('duplicate', 'duplicate'),
+        ('rejected', 'rejected'),
+        ('approved', 'approved')
+    ]
+    inquestion = models.ForeignKey(InQuestion, on_delete=models.CASCADE)
+    question_type = models.CharField(default='NA', max_length=100)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    state = models.CharField(max_length=100, choices=CHOICES, default=CHOICES[0])
+    level = models.IntegerField(default=0)
+    length = models.CharField(default='', max_length=25)
+    question_html = RichTextUploadingField()
+    solution_html = RichTextUploadingField()
+    options = ArrayField(RichTextUploadingField(), blank=True, null=True)
+    correct_option = models.CharField(default='', max_length=500, null=True)
+
+    def __str__(self):
+        return self.question_html
 
 
 class TestModel(models.Model):

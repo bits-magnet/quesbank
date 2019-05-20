@@ -144,4 +144,4 @@ class Command(BaseCommand):
                                         except:
                                             pass
                                         question.save()
-                    print(book + 'migration complete')
+                    print(book + ' migration complete')

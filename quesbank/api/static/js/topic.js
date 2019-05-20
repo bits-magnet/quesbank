@@ -11,11 +11,20 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
 	$scope.state = "";
 
 
-	$scope.objective_new = function() {
+	$scope.objective_imported = function() {
 		$scope.state = "imported";
 		$window.location.href = makeUrl(URL2, $scope.topic_id,$scope.state);
 
 	}
+	$scope.objective_created = function() {
+		$scope.state = "created";
+		$window.location.href = makeUrl(URL2, $scope.topic_id,$scope.state);
+	}
+	$scope.objective_processed = function() {
+		$scope.state = "processed";
+		$window.location.href = makeUrl(URL2, $scope.topic_id,$scope.state);
+	}
+
 
 	$scope.objective_duplicate = function() {
 
@@ -28,8 +37,16 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
 		$window.location.href = makeUrl(URL2, $scope.topic_id,$scope.state);
 	}
 
-	$scope.subjective_new = function() {
+	$scope.subjective_imported = function() {
 		$scope.state = "imported";
+		$window.location.href = makeUrl(URL1, $scope.topic_id,$scope.state);
+	}
+	$scope.subjective_created = function() {
+		$scope.state = "created";
+		$window.location.href = makeUrl(URL1, $scope.topic_id,$scope.state);
+	}
+	$scope.subjective_processed = function() {
+		$scope.state = "processed";
 		$window.location.href = makeUrl(URL1, $scope.topic_id,$scope.state);
 	}
 
@@ -46,7 +63,6 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
 }]);
 
 function makeUrl(URL, topic_id, state) {
-
-
     return URL + "?topic=" + topic_id + "&state="+state;
 }
+

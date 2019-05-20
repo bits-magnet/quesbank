@@ -43,8 +43,10 @@
     <h3> Subject : {% verbatim %} {{subject_name}} {% endverbatim %}</h3>
     <h4> Subjective Question </h4>
     <!--h1 ng-bind-html = "ans"> </h1-->
+      <button type="button" name="prev" ng-click = "prevQuestionSet();" > Prev </button>
+      <button type="button" name="next" ng-click = "nextQuestionSet();" > Next </button>
         <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped" show-filter = "true">
-            <tr ng-repeat="i in data" ng-attr-id="i.id">
+            <tr ng-repeat="i in data.results" ng-attr-id="i.id">
 
                   <td data-title="'Question Id'"> {% verbatim %} {{i.id}} {% endverbatim %} </td>
                   <td data-title="'Question'"> <p ng-bind-html =  "i.question_html"></p> </td>

@@ -22,11 +22,28 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
     }
 
      $scope.seeDuplicates = function(question_id) {
-
-
       console.log("see Duplicates");
       console.log(question_id);
-      $window.location.href = './duplicate.html';
+      $window.location.href = './duplicates/' + question_id;
+    }
+
+    $scope.prevQuestionSet = function() {
+        var prev = $scope.data.previous;
+        var n = prev.lastIndexOf('/');
+        var result = prev.substring(n + 1);
+        console.log("Previous");
+        $window.location.href = "./" + result;
+
+    }
+
+    $scope.nextQuestionSet = function() {
+
+        var next = $scope.data.next;
+        var n = next.lastIndexOf('/');
+        var result = next.substring(n + 1);
+        console.log("Next");
+       $window.location.href = "./" + result;
+
     }
 
 
@@ -40,6 +57,17 @@ function getUrlParameters() {
   return paramsObject;
 }
 // Data of subjective Question
+
+function getSubjectData($http,$scope,URL,urlParameter) {
+  $http({
+    method : "GET",
+    url :   "http://127.0.0.1:8000/api/subjective-question/",
+    params : urlParameter,
+  }).then(function (response,data) {
+      console.log(response.data);
+    $scope.data= response.data;
+  });
+}
 
 function getData($http,$scope,URL,urlParameter) {
   $http({
@@ -55,3 +83,5 @@ function getData($http,$scope,URL,urlParameter) {
 function getUrlPath($location) {
   return $location.absUrl();
 }
+
+

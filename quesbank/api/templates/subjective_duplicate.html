@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+<style>
+body {
+  font-family: Arial;
+  color: black;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 1;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  border-right: 0px solid red;
+  background: linear-gradient(
+    to right,
+    #ff9e2c 0%,
+    #ff9e2c 50%
+  );
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  overflow: scroll;
+  border-left: 0px solid white;
+  background: linear-gradient(
+    to right,
+    #b6701e 50%,
+    #b6701e 100%
+  );
+}
+
+.centered {
+  text-align: center;
+}</style>
+</head>
+<body>
+
+
+<div class="split left">
+    <p>
+
+    ID : {{subjective_question.id}}
+    <br>
+    Topic : {{subjective_question.topic}}
+    <br>
+    question level : {{subjective_question.level}}
+    <br>
+      state : {{subjective_question.state}}
+      <h6 class="centered">Question</h6>
+      <br>
+      <textarea name="editor1">{{subjective_question.question_html}}</textarea>
+      <script>
+                        CKEDITOR.replace( 'editor1' );
+      </script>
+    <br><h6 class="centered">Solution</h6>
+            <textarea name="editor2">{{subjective_question.solution_html}}</textarea>
+      <script>
+                        CKEDITOR.replace( 'editor2' );
+      </script>
+    <br>
+
+    <a href=" {% url 'subjective_question_update' subjective_question.id %}"><button> edit </button></a>
+    <script>
+        function popupx() {
+          window.open("{% url 'subjective_question_archieve' subjective_question.id %}");
+        }
+        function popupapprovey() {
+          window.open("{% url 'subjective_question_approve' subjective_question.id %}");
+        }
+    </script>
+    <button onclick="popupx()"> delete/archieve </button>
+    <button onclick="popupapprovey()"> approve </button>
+<br><br>
+    </p>
+</div>
+
+
+
+<div class="split right">
+<p>
+    {% for similar_question in similar_questions %}
+       <h3> id : {{similar_question.similar_to_question.id}}</h3>
+    <br>
+    <h6 class="centered">Question</h6>
+            <textarea name="{{ forloop.counter }}a">{{similar_question.similar_to_question.question_html}}</textarea>
+      <script>
+                        CKEDITOR.replace( '{{ forloop.counter }}a');
+      </script>
+    <br>
+    <h6 class="centered">Solution</h6>
+    <textarea name="{{ forloop.counter }}">{{similar_question.similar_to_question.solution_html}}</textarea>
+      <script>
+                        CKEDITOR.replace( '{{ forloop.counter }}');
+      </script>
+    <br>
+    <br>
+    <a href=" {% url 'subjective_question_update' similar_question.similar_to_question.id %}"><button> edit </button></a>
+    <script>
+    function popup() {
+      window.open("{% url 'subjective_question_archieve' similar_question.similar_to_question.id %}");
+    }
+    function popupapprove() {
+      window.open("{% url 'subjective_question_approve' similar_question.similar_to_question.id %}");
+    }
+    </script>
+    <button onclick="popup()"> delete/archieve </button>
+    <button onclick="popupapprove()"> approve </button>
+    <br>
+    <hr><hr>
+    {% endfor %}
+</p>
+</div>
+
+</body>
+</html>

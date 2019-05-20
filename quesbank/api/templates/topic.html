@@ -45,16 +45,22 @@
   </nav>
   <div class="contain">
 
-    <h2>Topic Name : {% verbatim %} {{topic_name}}  {% endverbatim %} </h2>
+    <h2>Topic Name : {% verbatim %} {{topic_data.topic}}  {% endverbatim %} </h2>
+      <h2>Topic ID : {% verbatim %} {{topic_data.topic_id}}  {% endverbatim %} </h2>
+      <h2>Subject Name : {% verbatim %} {{subject_data.subject}}  {% endverbatim %} </h2>
+      <h2>Standard : {% verbatim %} {{subject_data.standard.standard}}  {% endverbatim %} </h2>
     <div>
       <h3>Objective Question</h3>
 
       <div class = "questionList">
 
         <ul>
-          <li><a ng-click = "objective_new();" >New Created</a> {% verbatim %} {{ oq_new_created.length }}  {% endverbatim %} </li>
-          <li><a ng-click = "objective_duplicate();" >Duplicate</a>  {% verbatim %} {{ oq_duplicate.length }}  {% endverbatim %} </li>
-          <li><a ng-click = "objective_rejected();" >Rejected</a> {% verbatim %} {{ oq_rejected.length }}  {% endverbatim %} </li>
+          <li><a ng-click = "objective_created();" >Created</a>  </li>
+            <li><a ng-click = "objective_imported();" > Imported</a>  </li>
+            <li><a ng-click = "objective_processed();" > Processed</a>  </li>
+
+          <li><a ng-click = "objective_duplicate();" >Duplicate</a>   </li>
+          <li><a ng-click = "objective_rejected();" >Rejected</a>  </li>
         </ul>
         
 
@@ -65,9 +71,11 @@
       <div class = "questionList">
 
         <ul>
-          <li><a ng-click = "subjective_new();" >New Created</a> {% verbatim %} {{ sq_new_created.length }}  {% endverbatim %} </li>
-          <li><a ng-click = "subjective_duplicate();" >Duplicate</a> {% verbatim %} {{ sq_duplicate.length }}  {% endverbatim %} </li>
-          <li><a ng-click = "subjective_rejected();" >Rejected</a> {% verbatim %} {{ sq_rejected.length }}  {% endverbatim %} </li>
+          <li><a ng-click = "subjective_created();" > Created</a>  </li>
+          <li><a ng-click = "subjective_imported();" > Imported</a>  </li>
+            <li><a ng-click = "subjective_processed();" > Processed</a>  </li>
+          <li><a ng-click = "subjective_duplicate();" >Duplicate</a>  </li>
+          <li><a ng-click = "subjective_rejected();" >Rejected</a>  </li>
         </ul>
         
 

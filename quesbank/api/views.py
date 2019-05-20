@@ -141,53 +141,6 @@ def subjective(request):
 def objective(request):
     return render(request, 'objective.html')
 
-# from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.views.generic import FormView
-# from .forms import SubjectiveQuestionPostForm
-# from django.shortcuts import redirect
-
-# class CkeditorSubjectiveQuestion(LoginRequiredMixin, FormView):
-#     template_name = 'ckeditor_template.html'
-#     form_class = SubjectiveQuestionPostForm
-#
-#     def form_valid(self, form):
-#         user = self.request.user
-#         question_html = form.cleaned_data['question_html']
-#         solution_html = form.cleaned_data['solution_html']
-#         try:
-#             subjective_question = SubjectiveQuestion.objects.get(pk=2)
-#             subjective_question.question_html = question_html
-#             subjective_question.solution_html = solution_html
-#             print("questionview", '*'*50, 'object craeted')
-#             subjective_question.save()
-#         except:
-#             pass
-#         return redirect('success')
-
-# reference : https://medium.com/@adriennedomingus/working-in-forms-with-django-97ffba4206a6
-
-# from annoying.functions import get_object_or_None
-# from django.shortcuts import render
-# from .forms import SubjectiveQuestionPostForm
-# from .models import SubjectiveQuestion
-#
-#
-# def ckeditor_subjective_question_edit(request, subjective_qeustion_id):
-#     subjective_qeustion = get_object_or_None(SubjectiveQuestion, pk = subjective_qeustion_id)
-#     if not subjective_qeustion:
-#         print('error', '*'*100)
-#     if request.method == "POST":
-#         form = SubjectiveQuestionPostForm(request.POST, instance = subjective_qeustion)
-#         if form.is_valid():
-#             subjective_qeustion.save()
-#     else:
-#         form = SubjectiveQuestionPostForm(instance = subjective_qeustion)
-#
-#     context = {
-#         'form' : form,
-#         'subjective_question' : subjective_qeustion
-#     }
-#     return render(request, 'ckeditor_template.html')
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -225,4 +178,47 @@ class ObjectiveQuestionDelete(DeleteView):
 
 
 def success(request):
+    return render(request, 'success.html')
+
+
+def subjective_duplicates(request, subjective_question_id):
+    subjective_question = SubjectiveQuestion.objects.get(pk=subjective_question_id)
+    if not subjective_question.state == 'duplicate':
+        return render(request, 'no_duplicates.html')
+    similar_questions = SimilarSubjectiveQuestion.objects.filter(question = subjective_question.id, similar_to_question__state = 'duplicate')
+
+    context = {
+        'subjective_question' : subjective_question,
+        'similar_questions': similar_questions
+    }
+    print(context['similar_questions'])
+    return render(request, 'subjective_duplicate.html', context=context)
+
+
+def subjective_archieve(request, subjective_question_id):
+    subjective_question = SubjectiveQuestion.objects.get(pk = subjective_question_id)
+    archieve_subjective_question = ArchievedSubjectiveQuestion.objects.create(inquestion = subjective_question.inquestion,
+                                                                              question_html = subjective_question.inquestion.question_html,
+                                                                              solution_html = subjective_question.inquestion.solution_html,
+                                                                              question_type = subjective_question.question_type,
+                                                                              updated_at = subjective_question.updated_at,
+                                                                              topic = subjective_question.topic,
+                                                                              state = 'rejected',
+                                                                              level = subjective_question.level,
+                                                                              length = subjective_question.length
+                                                                              )
+
+    similar_subjective_questions = SimilarSubjectiveQuestion.objects.filter(similar_to_question = subjective_question)
+
+    for similar_subjective_question in similar_subjective_questions:
+        similar_subjective_question.delete()
+    subjective_question.delete()
+    archieve_subjective_question.save()
+    print(archieve_subjective_question)
+    return render(request, 'success.html')
+
+def subjective_approve(request, subjective_question_id):
+    subjective_question = SubjectiveQuestion.objects.get(pk=subjective_question_id)
+    subjective_question.state = 'approved'
+    subjective_question.save()
     return render(request, 'success.html')

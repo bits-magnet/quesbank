@@ -1,11 +1,8 @@
 from django.core.management.base import BaseCommand
 import os
 from os.path import dirname
-import json
 from api.models import *
-from bs4 import BeautifulSoup as BS
-from os.path import basename, splitext
-from .getSimilarity import get_sim_matrix
+from .services.getSimilarity import get_sim_matrix
 
 
 class Command(BaseCommand):
@@ -31,12 +28,13 @@ class Command(BaseCommand):
                 print(element[0], element[1])
                 for similar_question in similar_questions_list:
                     similar_subjective_question_found = SubjectiveQuestion.objects.get(pk = similar_question[0])
-                    similar_subjective_question_found.state = 'duplicate'
-                    similar_subjective_question_found.save()
-                    similar_subjective_question, created = SimilarSubjectiveQuestion.objects.get_or_create(question = question,
-                                                                                                                   similar_to_question = similar_subjective_question_found,
-                                                                                                                    similarity_percentage = similar_question[1])
-                    similar_subjective_question.save()
+                    if not question.id == similar_subjective_question_found.id:
+                        similar_subjective_question_found.state = 'duplicate'
+                        similar_subjective_question_found.save()
+                        similar_subjective_question, created = SimilarSubjectiveQuestion.objects.get_or_create(question = question,
+                                                                                                                       similar_to_question = similar_subjective_question_found,
+                                                                                                                        similarity_percentage = similar_question[1])
+                        similar_subjective_question.save()
         print('Subjective Question similarity check done according to topics')
         for topic in topics:
             data = {}
@@ -51,15 +49,15 @@ class Command(BaseCommand):
             for element in result:
                 question = ObjectiveQuestion.objects.get(pk = element[0])
                 similar_questions_list = element[1]
-                print(element[0], element[1])
                 for similar_question in similar_questions_list:
                     similar_objective_question_found = ObjectiveQuestion.objects.get(pk=similar_question[0])
-                    similar_objective_question_found.state = 'duplicate'
-                    similar_objective_question_found.save()
-                    similar_objective_question, created = SimilarObjectiveQuestion.objects.get_or_create(question=question,
-                                                                                                             similar_to_question = similar_objective_question_found,
-                                                                                                             similarity_percentage=similar_question[1])
-                    similar_objective_question.save()
+                    if not question.id == similar_objective_question_found.id:
+                        similar_objective_question_found.state = 'duplicate'
+                        similar_objective_question_found.save()
+                        similar_objective_question, created = SimilarObjectiveQuestion.objects.get_or_create(question=question,
+                                                                                                                 similar_to_question = similar_objective_question_found,
+                                                                                                                 similarity_percentage=similar_question[1])
+                        similar_objective_question.save()
         print('Objective Question similarity check done according to topics')
         print('All the duplicate questions contain DUPLICATE state')
         questions = Question.objects.all()
