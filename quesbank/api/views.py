@@ -222,3 +222,50 @@ def subjective_approve(request, subjective_question_id):
     subjective_question.state = 'approved'
     subjective_question.save()
     return render(request, 'success.html')
+
+
+##################################################################
+def objective_duplicates(request, objective_question_id):
+    objective_question = SubjectiveQuestion.objects.get(pk=objective_question_id)
+    if not objective_question.state == 'duplicate':
+        return render(request, 'no_duplicates.html')
+    similar_questions = SimilarSubjectiveQuestion.objects.filter(question = objective_question.id, similar_to_question__state = 'duplicate')
+
+    context = {
+        'objective_question' : objective_question,
+        'similar_questions': similar_questions
+    }
+    print(context['similar_questions'])
+    return render(request, 'objective_duplicate.html', context=context)
+
+
+def objective_archieve(request, objective_question_id):
+    objective_question = ObjectiveQuestion.objects.get(pk = objective_question_id)
+    archieve_objective_question = ArchievedObjectiveQuestion.objects.create(inquestion = objective_question.inquestion,
+                                                                              question_html = objective_question.inquestion.question_html,
+                                                                              solution_html = objective_question.inquestion.solution_html,
+                                                                              question_type = objective_question.question_type,
+                                                                              options = objective_question.options,
+                                                                              correct_option = objective_question.correct_option,
+                                                                              updated_at = objective_question.updated_at,
+                                                                              topic = objective_question.topic,
+                                                                              state = 'rejected',
+                                                                              level = objective_question.level,
+                                                                              length = objective_question.length
+                                                                              )
+
+    similar_objective_questions = SimilarObjectiveQuestion.objects.filter(similar_to_question = objective_question)
+
+    for similar_objective_question in similar_objective_questions:
+        similar_objective_question.delete()
+    objective_question.delete()
+    archieve_objective_question.save()
+    print(archieve_objective_question)
+    return render(request, 'success.html')
+
+
+def objective_approve(request, objective_question_id):
+    objective_question = ObjectiveQuestion.objects.get(pk=subjective_question_id)
+    objective_question.state = 'approved'
+    objective_question.save()
+    return render(request, 'success.html')
