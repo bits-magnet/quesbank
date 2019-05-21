@@ -13,9 +13,8 @@ from rest_framework import status,filters
 import django_filters
 from django.template import Template
 from rest_framework.permissions import IsAuthenticated
+from .services import *
 
-#from .ckeditor_view import upload as ck_upload
-#from .ckeditor_view import browse as ck_browse
 
 class StandardList(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -181,6 +180,8 @@ def success(request):
     return render(request, 'success.html')
 
 
+#######################  subjective question views ###########################################
+
 def subjective_duplicates(request, subjective_question_id):
     subjective_question = SubjectiveQuestion.objects.get(pk=subjective_question_id)
     if not subjective_question.state == 'duplicate':
@@ -224,7 +225,8 @@ def subjective_approve(request, subjective_question_id):
     return render(request, 'success.html')
 
 
-##################################################################
+#######################  objective question views ###########################################
+
 def objective_duplicates(request, objective_question_id):
     objective_question = SubjectiveQuestion.objects.get(pk=objective_question_id)
     if not objective_question.state == 'duplicate':
@@ -265,7 +267,7 @@ def objective_archieve(request, objective_question_id):
 
 
 def objective_approve(request, objective_question_id):
-    objective_question = ObjectiveQuestion.objects.get(pk=subjective_question_id)
+    objective_question = ObjectiveQuestion.objects.get(pk=objective_question_id)
     objective_question.state = 'approved'
     objective_question.save()
     return render(request, 'success.html')
