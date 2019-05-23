@@ -65,6 +65,7 @@ class Command(BaseCommand):
                                             pass
                                         try:
                                             question.solution_html = jsonobject['solutionHtml']
+                                            question.solution_html = process_image_src_html(question.solution_html, standard, subject, book, topics)
                                         except:
                                             pass
                                         try:

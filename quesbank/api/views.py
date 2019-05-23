@@ -126,11 +126,38 @@ def ques_bank(request):
 
 
 def subject(request,pk):
-    return render(request, 'subject.html',{'subjectId':pk})
+    return render(request, 'subject.html', {'subjectId': pk})
 
 
 def topic(request,sub_key,topic_key):
-    return render(request, 'topic.html', {'subjectId':sub_key, 'topicId' : topic_key})
+    topic = Topic.objects.get(pk=topic_key)
+    subject = Subject.objects.get(pk=sub_key)
+    created_subjective_question_count = SubjectiveQuestion.objects.filter(state = 'created', topic = topic).count()
+    imported_subjective_question_count = SubjectiveQuestion.objects.filter(state = 'imported', topic = topic).count()
+    processed_subjective_question_count = SubjectiveQuestion.objects.filter(state='processed', topic = topic).count()
+    duplicate_subjective_question_count = SubjectiveQuestion.objects.filter(state='duplicate', topic = topic).count()
+    rejected_subjective_question_count = SubjectiveQuestion.objects.filter(state='rejected', topic = topic).count()
+    created_objective_question_count = ObjectiveQuestion.objects.filter(state='created', topic=topic).count()
+    imported_objective_question_count = ObjectiveQuestion.objects.filter(state='imported', topic=topic).count()
+    processed_objective_question_count = ObjectiveQuestion.objects.filter(state='processed', topic=topic).count()
+    duplicate_objective_question_count = ObjectiveQuestion.objects.filter(state='duplicate', topic=topic).count()
+    rejected_objective_question_count = ObjectiveQuestion.objects.filter(state='rejected', topic=topic).count()
+
+    context = {
+        'subjectId': sub_key, 'topicId': topic_key,
+        'topic': topic, 'subject': subject,
+        'created_subjective_question_count' : created_subjective_question_count,
+        'imported_subjective_question_count': imported_subjective_question_count,
+        'processed_subjective_question_count':processed_subjective_question_count,
+        'duplicate_subjective_question_count':duplicate_subjective_question_count,
+        'rejected_subjective_question_count':rejected_subjective_question_count,
+        'created_objective_question_count':created_objective_question_count,
+        'imported_objective_question_count' : imported_objective_question_count,
+        'processed_objective_question_count':processed_objective_question_count,
+        'duplicate_objective_question_count':duplicate_objective_question_count,
+        'rejected_objective_question_count':rejected_objective_question_count
+    }
+    return render(request, 'topic.html', context)
 
 
 def subjective(request):
@@ -222,16 +249,20 @@ def subjective_approve(request, subjective_question_id):
     subjective_question = SubjectiveQuestion.objects.get(pk=subjective_question_id)
     subjective_question.state = 'approved'
     subjective_question.save()
+    similar_subjective_questions = SimilarSubjectiveQuestion.objects.filter(similar_to_question = subjective_question)
+    for similar_subjective_question in similar_subjective_questions:
+        similar_subjective_question.delete()
     return render(request, 'success.html')
 
 
 #######################  objective question views ###########################################
 
 def objective_duplicates(request, objective_question_id):
-    objective_question = SubjectiveQuestion.objects.get(pk=objective_question_id)
+    objective_question = ObjectiveQuestion.objects.get(pk=objective_question_id)
     if not objective_question.state == 'duplicate':
         return render(request, 'no_duplicates.html')
-    similar_questions = SimilarSubjectiveQuestion.objects.filter(question = objective_question.id, similar_to_question__state = 'duplicate')
+    similar_questions = SimilarObjectiveQuestion.objects.filter(question = objective_question.id, similar_to_question__state = 'duplicate' ) #| SimilarObjectiveQuestion.objects.filter(similar_to_question = objective_question.id, similar_to_question__state = 'duplicate' )
+
 
     context = {
         'objective_question' : objective_question,
@@ -270,4 +301,9 @@ def objective_approve(request, objective_question_id):
     objective_question = ObjectiveQuestion.objects.get(pk=objective_question_id)
     objective_question.state = 'approved'
     objective_question.save()
+    similar_objective_questions = SimilarObjectiveQuestion.objects.filter(similar_to_question = objective_question)
+    for similar_objective_question in similar_objective_questions:
+        similar_objective_question.delete()
+
     return render(request, 'success.html')
+

@@ -56,21 +56,21 @@ body {
 <div class="split left">
     <p>
 
-    ID : {{subjective_question.id}}
+    ID : {{objective_question.id}}
     <br>
-    Topic : {{subjective_question.topic}}
+    Topic : {{objective_question.topic}}
     <br>
-    question level : {{subjective_question.level}}
+    question level : {{objective_question.level}}
     <br>
-      state : {{subjective_question.state}}
+      state : {{objective_question.state}}
       <h6 class="centered">Question</h6>
       <br>
-      <textarea name="editor1">{{subjective_question.question_html}}</textarea>
+      <textarea name="editor1">{{objective_question.question_html}}</textarea>
       <script>
                         CKEDITOR.replace( 'editor1' );
       </script>
     <br><h6 class="centered">Solution</h6>
-            <textarea name="editor2">{{subjective_question.solution_html}}</textarea>
+            <textarea name="editor2">{{objective_question.solution_html}}</textarea>
       <script>
                         CKEDITOR.replace( 'editor2' );
       </script>
@@ -78,15 +78,16 @@ body {
 
     <script>
         function popupedity() {
-          window.open("{% url 'subjective_question_update' subjective_question.id %}");
+          window.open("{% url 'objective_question_update' objective_question.id %}");
         }
         function popuparchievey() {
-          window.open("{% url 'subjective_question_archieve' subjective_question.id %}");
+          window.open("{% url 'objective_question_archieve' objective_question.id %}");
         }
         function popupapprovey() {
-          window.open("{% url 'subjective_question_approve' subjective_question.id %}");
+          window.open("{% url 'objective_question_approve' objective_question.id %}");
         }
-
+    </script>
+    <script>
         var deleteLinks = document.querySelectorAll('.delete');
 
         for (var i = 0; i < deleteLinks.length; i++) {
@@ -101,9 +102,9 @@ body {
           });
         }
     </script>
-    <button class="btn btn-info" onclick="popupedity()"> Edit </button>
-    <a href ="{% url 'subjective_question_approve' subjective_question.id %}" class="delete" data-confirm="Are you sure to delete this item?"> <button class="btn btn-danger" >delete/archieve</button></a>
-    <button class="btn btn-success" onclick="popupapprovey()"> approve </button>
+    <button onclick="popupedity()"> Edit </button>
+    <a href ="{% url 'objective_question_approve' objective_question.id %}" class="delete" data-confirm="Are you sure to delete this item?"> <button>delete/archieve</button></a>
+    <button onclick="popupapprovey()"> approve </button>
 <br><br>
     </p>
 </div>
@@ -130,17 +131,17 @@ body {
     <br>
     <script>
     function popuparchieve() {
-      window.open("{% url 'subjective_question_archieve' similar_question.similar_to_question.id %}");
+      window.open("{% url 'objective_question_archieve' similar_question.similar_to_question.id %}");
     }
     function popupapprove() {
-      window.open("{% url 'subjective_question_approve' similar_question.similar_to_question.id %}");
+      window.open("{% url 'objective_question_approve' similar_question.similar_to_question.id %}");
     }
     function popupedit() {
-      window.open("{% url 'subjective_question_update' similar_question.similar_to_question.id %}");
+      window.open("{% url 'objective_question_update' similar_question.similar_to_question.id %}");
     }
     </script>
-    <button class="btn btn-danger " onclick="popupedit()"> edit </button>
-    <a href ="{% url 'subjective_question_archieve' similar_question.similar_to_question.id %}" class="delete" data-confirm="Are you sure to delete this item?"> <button class="btn btn-danger" >delete/archieve</button></a>
+    <button class="btn btn-primary " onclick="popupedit()"> delete/archieve </button>
+    <button class="btn btn-danger " onclick="popuparchieve()"> delete/archieve </button>
     <button class="btn btn-success " onclick="popupapprove()"> approve </button>
     <br>
     <hr><hr>
@@ -161,7 +162,9 @@ for (var i = 0; i < deleteLinks.length; i++) {
 	  }
   });
 }
+
 </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 </body>
 </html>

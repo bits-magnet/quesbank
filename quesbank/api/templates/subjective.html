@@ -39,27 +39,24 @@
       </div>
   </nav>
   <div class="contain">
-    <h3> Topic Name : {% verbatim %} {{topic_name}} {% endverbatim %} </h3>
-    <h3> Subject : {% verbatim %} {{subject_name}} {% endverbatim %}</h3>
-    <h4> Subjective Question </h4>
-    <!--h1 ng-bind-html = "ans"> </h1-->
-      <button type="button" name="prev" ng-click = "prevQuestionSet();" > Prev </button>
-      <button type="button" name="next" ng-click = "nextQuestionSet();" > Next </button>
-        <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped" show-filter = "true">
-            <tr ng-repeat="i in data.results" ng-attr-id="i.id">
+<!--    <h3> Topic Name : {% verbatim %} {{topic_name}} {% endverbatim %} </h3>
+    <h3> Subject : {% verbatim %} {{subject_name}} {% endverbatim %}</h3> -->
+    <h4 style="text-align:center"> Subjective Questions </h4>
 
+        <table class="table table-dark table-hover table-bordered" ng-table ="tableParams" show-filter = "true">
+            <tr ng-repeat="i in data.results" ng-attr-id="i.id">
                   <td data-title="'Question Id'"> {% verbatim %} {{i.id}} {% endverbatim %} </td>
                   <td data-title="'Question'"> <p ng-bind-html =  "i.question_html"></p> </td>
-
                   <td data-title="'Solution'"> <p ng-bind-html = "i.solution_html"> </p> </td>
 
                   <td data-title = "'Status'">
-                    <button type="button" name="Edit" ng-click = "editQuestion(i.id);" > Edit </button>
-                    <button type="button" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
+                    <button type="button" class="btn btn-primary btn-block" name="Edit" ng-click = "editQuestion(i.id);" > Edit </button>
+                    <button type="button" class="btn btn-warning btn-block" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
                   </td>
             </tr>
         </table>
-
+        <button type="button" class="btn" name="prev" ng-click = "prevQuestionSet();" > < Prev </button>
+      <button type="button" name="next" class="btn" ng-click = "nextQuestionSet();" > Next > </button>
     </div>
 
 

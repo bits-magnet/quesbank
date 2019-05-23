@@ -130,7 +130,7 @@ class SimilarObjectiveQuestion(models.Model):
     similarity_percentage = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.question)
+        return str(self.question.id) + " "+ str(self.similar_to_question.id)
 
 
 class ArchievedSubjectiveQuestion(models.Model):

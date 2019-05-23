@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from .views import *
+from .utils import *
 
 urlpatterns = [
     path('', ques_bank),
@@ -38,4 +39,6 @@ urlpatterns = [
     path('objective-question/question/<int:pk>', ObjectiveQuestionUpdate.as_view(success_url="/success"), name='objective_question_update'),
 
     path('success', success, name='success'),
+
+    path('download-objective-json', download_objective_json, name = 'download-objective-json'),
 ]

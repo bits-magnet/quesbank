@@ -7,11 +7,8 @@ var URL2 = "http://127.0.0.1:8000/objective-question/"
 
 myApp.controller('mainController', ['$scope','$http','$location','NgTableParams','$window', function($scope, $http, $location, NgTableParams, $window) {
 
-	$scope.topic_data = '';
-	$scope.subject_data = '';
-	getTopicData($http,$scope);
-	getSubjectdata($http,$scope);
-
+	$scope.topic_id = topicId;
+	$scope.state = "";
 
 
 	$scope.objective_imported = function() {
@@ -66,25 +63,6 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
 }]);
 
 function makeUrl(URL, topic_id, state) {
-
-
     return URL + "?topic=" + topic_id + "&state="+state;
 }
 
-function getTopicData($http,$scope) {
-  $http({
-    method : "GET",
-    url :   "http://127.0.0.1:8000/api/topic/" + $scope.topic_id,
-  }).then(function (response,data) {
-    $scope.topic_data= response.data;
-  });
-}
-
-function getSubjectData($http,$scope) {
-  $http({
-    method : "GET",
-    url :   "http://127.0.0.1:8000/api/subject/" + $scope.topic_data.subject,
-  }).then(function (response,data) {
-    $scope.subject_data= response.data;
-  });
-}

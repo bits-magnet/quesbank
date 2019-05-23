@@ -45,9 +45,6 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
        $window.location.href = "./" + result;
 
     }
-
-
-
 }]);
 
 function getUrlParameters() {

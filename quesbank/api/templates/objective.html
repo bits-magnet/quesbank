@@ -1,5 +1,5 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en" ng-app = "myApp">
   <head>
     <meta charset="utf-8">
@@ -9,6 +9,72 @@
 
     <!-- load angular via CDN -->
         <script src="http://code.angularjs.org/1.3.0-rc.1/angular.min.js"></script>
+        <script src="http://code.angularjs.org/1.3.0/angular-route.js"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-sanitize.js"></script>
+
+        <script src="{% static 'js/objective.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'css/subjective.css' %}">
+  </head>
+  <body ng-controller="mainController">
+
+
+
+    <!-- NavBar -->
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+
+
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </div>
+  </nav>
+  <div class="contain">
+    <!--<h3> Topic Name : {% verbatim %} {{topic_name}} {% endverbatim %} </h3>
+    <h3> Subject : {% verbatim %} {{subject_name}} {% endverbatim %}</h3>-->
+    <h4 style="text-align:center"> Objective Questions </h4>
+
+        <table class="table" ng-table ="tableParams"  class="table table-dark table-hover table-bordered" show-filter = "true">
+            <tr ng-repeat="i in data.results" ng-attr-id="i.id">
+
+                  <td data-title="'Question Id'"> {% verbatim %} {{i.id}} {% endverbatim %} </td>
+                  <td data-title="'Question'"> <p ng-bind-html =  "i.question_html"></p> </td>
+
+                  <td data-title="'Solution'"> <p ng-bind-html = "i.solution_html"> </p> </td>
+
+                  <td data-title = "'Status'" class="">
+                    <button type="button" class="btn btn-primary btn-block" name="Edit" ng-click = "editQuestion(i.id);" > Edit </button>
+                    <button type="button" class="btn btn-warning btn-block" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
+                  </td>
+            </tr>
+        </table>
+        <button type="button" name="prev" ng-click = "prevQuestionSet();" > Prev </button>
+        <button type="button" name="next" ng-click = "nextQuestionSet();" > Next </button>
+    </div>
+
+
+  </body>
+</html>
+
+<!--<!DOCTYPE html>
+<html lang="en" ng-app = "myApp">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- load bootstrap and fontawesome via CDN -->
+<!--        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+
+    <!-- load angular via CDN -->
+<!--        <script src="http://code.angularjs.org/1.3.0-rc.1/angular.min.js"></script>
         <script src="http://code.angularjs.org/1.3.0/angular-route.js"></script>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.css">
@@ -30,7 +96,7 @@
 
     <!-- NavBar -->
 
-    <nav class="navbar navbar-inverse">
+<!--    <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
@@ -48,7 +114,7 @@
     <h3> Subject : {% verbatim %} {{subject_name}} {% endverbatim %}</h3>
     <h4> Objective Question </h4>
     <!--h1 ng-bind-html = "ans"> </h1-->
-        <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped modular" show-filter = "true" style="width:100%">
+<!--        <table ng-table ="tableParams"  class="table table-condensed table-bordered table-striped modular" show-filter = "true" style="width:100%">
             <tr ng-repeat="i in data" ng-attr-id="i.id">
 
                   <td data-title="'Question Id'"> {% verbatim %} {{i.id}} {% endverbatim %} </td>
@@ -68,3 +134,4 @@
 
   </body>
 </html>
+-->

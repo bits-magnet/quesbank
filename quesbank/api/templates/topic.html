@@ -23,63 +23,69 @@
 
         <script src="{% static 'js/topic.js' %}"></script>
         <link rel="stylesheet" href="{% static 'css/topic.css' %}">
+    <style>
+      .custom {
+         width: 200px !important;
+      }
+      .space {
+        padding:5px;
+      }
+    </style>
   </head>
+
   <body ng-controller="mainController">
-
-
-
-    <!-- NavBar -->
-
+  <!-- NavBar -->
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
         </ul>
-        
-
-
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Logout</a></li>
         </ul>
       </div>
   </nav>
+
   <div class="contain">
-
-    <h2>Topic Name : {% verbatim %} {{topic_data.topic}}  {% endverbatim %} </h2>
-      <h2>Topic ID : {% verbatim %} {{topic_data.topic_id}}  {% endverbatim %} </h2>
-      <h2>Subject Name : {% verbatim %} {{subject_data.subject}}  {% endverbatim %} </h2>
-      <h2>Standard : {% verbatim %} {{subject_data.standard.standard}}  {% endverbatim %} </h2>
-    <div>
+    <div class="row">
+      <div class="col-md-6 center">
+        <h2>Topic Name : {{topic.topic}}  </h2>
+        <h2>Topic ID : {{topic.id}}  </h2>
+      </div>
+      <div class="col-md-6 center">
+        <h2>Subject Name : {{subject.subject}} </h2>
+        <h2>Standard : {{subject.standard}}</h2>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col col-md-6">
       <h3>Objective Question</h3>
-
       <div class = "questionList">
 
         <ul>
-          <li><a ng-click = "objective_created();" >Created</a>  </li>
-            <li><a ng-click = "objective_imported();" > Imported</a>  </li>
-            <li><a ng-click = "objective_processed();" > Processed</a>  </li>
-
-          <li><a ng-click = "objective_duplicate();" >Duplicate</a>   </li>
-          <li><a ng-click = "objective_rejected();" >Rejected</a>  </li>
-        </ul>
-        
-
+          <li class="space"><a ng-click = "objective_created();"><button class="btn btn-primary custom"> Created (Count : {{created_objective_question_count}})</button></a>
+          </li>
+          <li class="space"><a ng-click = "objective_imported();" ><button class="btn btn-primary custom"> Imported (Count : {{imported_objective_question_count}})</button></a>  </li>
+            <li class="space"><a ng-click = "objective_processed();" ><button class="btn btn-primary custom"> Processed (Count : {{processed_objective_question_count}})</button></a>  </li>
+          <li class="space"><a ng-click = "objective_duplicate();" ><button class="btn btn-primary custom"> Duplicate (Count : {{duplicate_objective_question_count}})</button></a>  </li>
+          <li class="space"><a ng-click = "objective_rejected();" ><button class="btn btn-primary custom"> Rejected (Count : {{rejected_objective_question_count}})</button></a>  </li>        </ul>
       </div>
-
+      </div>
+    <div class="col col-md-6">
       <h3>Subjective Question</h3>
-
       <div class = "questionList">
-
         <ul>
-          <li><a ng-click = "subjective_created();" > Created</a>  </li>
-          <li><a ng-click = "subjective_imported();" > Imported</a>  </li>
-            <li><a ng-click = "subjective_processed();" > Processed</a>  </li>
-          <li><a ng-click = "subjective_duplicate();" >Duplicate</a>  </li>
-          <li><a ng-click = "subjective_rejected();" >Rejected</a>  </li>
+          <li class="space"><a ng-click = "subjective_created();"><button class="btn btn-primary custom"> Created (Count : {{created_subjective_question_count}})</button></a>  </li>
+          <li class="space"><a ng-click = "subjective_imported();" ><button class="btn btn-primary custom"> Imported (Count : {{imported_subjective_question_count}})</button></a>  </li>
+            <li class="space"><a ng-click = "subjective_processed();" ><button class="btn btn-primary custom"> Processed (Count : {{processed_subjective_question_count}})</button></a>  </li>
+          <li class="space"><a ng-click = "subjective_duplicate();" ><button class="btn btn-primary custom"> Duplicate (Count : {{duplicate_subjective_question_count}})</button></a>  </li>
+          <li class="space"><a ng-click = "subjective_rejected();" ><button class="btn btn-primary custom"> Rejected (Count : {{rejected_subjective_question_count}})</button></a>  </li>
         </ul>
         
 
       </div>
+    </div>
     </div>
 
 
