@@ -30,7 +30,7 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
         </ul>
-        
+
 
 
         <ul class="nav navbar-nav navbar-right">
@@ -51,7 +51,7 @@
 
                   <td data-title = "'Status'">
                     <button type="button" class="btn btn-primary btn-block" name="Edit" ng-click = "editQuestion(i.id);" > Edit </button>
-                    <button type="button" class="btn btn-warning btn-block" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
+                    <button ng-show = "showduplicate" type="button" class="btn btn-warning btn-block" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
                   </td>
             </tr>
         </table>

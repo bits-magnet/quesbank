@@ -3,9 +3,9 @@ import os
 from os.path import dirname
 import json
 from api.models import *
-from .services.predictLevel import predictLevel
-from .services.findLength import findLength
-from .services.findOptions import findOptions
+from .services.predict_level import predict_level
+from .services.find_length import find_length
+from .services.find_options import find_options
 from .services.categorize_questions import categorize
 
 class Command(BaseCommand):
@@ -29,7 +29,7 @@ class Command(BaseCommand):
                                             base_dir + '/books' + '/' + standard + '/' + subject + '/' + book + '/html' + '/' + topic + '/' + file,
                                             'r') as f:
                                         data = json.load(f)
-                                        dictionary = predictLevel(data['data'])
+                                        dictionary = predict_level(data['data'])
                                         text_id = None
                                         if flag:
                                             for x in data['data']:
@@ -54,7 +54,7 @@ class Command(BaseCommand):
         questions = InQuestion.objects.all()
         for question in questions:
             question_type = str(categorize(question.question_html, question.solution_html, question.exercise_name))
-            length = findLength(question.solution_html)
+            length = find_length(question.solution_html)
             if question_type == 'Subjective':
                 subjective_question, updated = SubjectiveQuestion.objects.get_or_create(question_type = 'Subjective', length = length, inquestion = question, topic = question.topic, state = 'imported')
                 subjective_question.question_html = question.question_html
@@ -64,7 +64,7 @@ class Command(BaseCommand):
                 objective_question, updated = ObjectiveQuestion.objects.get_or_create(question_type = 'Objective', length = length, inquestion = question, topic = question.topic, state = 'imported')
                 objective_question.question_html = question.question_html
                 objective_question.solution_html = question.solution_html
-                result = findOptions(objective_question.question_html, objective_question.solution_html)
+                result = find_options(objective_question.question_html, objective_question.solution_html)
                 if result['options']:
                     objective_question.options = result['options']
                 else:

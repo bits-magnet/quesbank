@@ -1,6 +1,26 @@
-# return Subjective or Objective string
+# function_name: categorize
 # Inputs: Question html, solution html, Exercise Name
-import string
+# return value: 'Subjective' or 'Objective' string
+#               Fill in the Blanks and Tru/False questions are considered Subjective
+
+#####################################################################
+#   Approach:-                                                      #
+#                                                                   #
+#   1. Search if exercise Name has 'objective' substring            #
+#   2. Search for various substrings that are often part of         #
+#      objective questions such as 'choose the correct answer'      #
+#                                                                   #
+#   3. If the above fail to catch the objective question,           #
+#      the question html and solution html is then calls            #
+#      the find_options function and if options are found,          #
+#      it is judged as an objective question                        #
+#                                                                   #
+#   4. If all the above fail, its assumed that its a subjective     #
+#      question.                                                    #
+#                                                                   #
+#####################################################################
+
+from .find_options import find_options
 
 def categorize(ques, sol, exName):
     ques = ques.lower()
@@ -13,41 +33,8 @@ def categorize(ques, sol, exName):
     or 'the correct answer is option' in sol:
         return 'Objective'
 
-    alpha = string.ascii_lowercase
-    D = findOptions(ques, sol)
+    D = find_options(ques, sol)
     if D['options'] != []:
-        for x in D['options']:
-            if x in sol:
-                return 'Objective'
+        return 'Objective'
 
     return 'Subjective'
-
-def getText(option, ques):
-    ind = ques.find(option)
-    newL = ques[ind:].find('<br')
-    tab = ques[ind:].find('&nbsp')
-
-    if tab == -1 and newL == -1:
-        return ques[ind:]
-    else:
-        end = min(tab, newL)
-        if end == -1:
-            end = max(tab, newL)
-        end += ind
-        return ques[ind:end]
-
-# Input: Question and Solution Html
-def findOptions(ques, sol):
-    ans = dict()
-    ans['options'] = []
-
-    alpha = string.ascii_lowercase
-
-    for x in alpha:
-        s = '(' + x + ')'
-        if s in ques:
-            opt = getText(s, ques)
-            ans['options'].append(opt.strip())
-        else:
-            break
-    return ans

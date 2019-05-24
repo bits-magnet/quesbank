@@ -72,6 +72,9 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
     var urlParameter = getUrlParameters();
     getData($http,$scope,URL1,urlParameter);
     console.log(urlParameter);
+    if(urlParameter.state == "duplicate") {
+       $scope.showduplicate = true;
+    }
     $scope.tableParams = new NgTableParams({}, { dataset: $scope.data });
     $scope.topic_name = "topic";
     var urlpath = getUrlPath($location);

@@ -38,7 +38,7 @@
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="../../../">Home</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Logout</a></li>
@@ -69,7 +69,9 @@
           <li class="space"><a ng-click = "objective_imported();" ><button class="btn btn-primary custom"> Imported (Count : {{imported_objective_question_count}})</button></a>  </li>
             <li class="space"><a ng-click = "objective_processed();" ><button class="btn btn-primary custom"> Processed (Count : {{processed_objective_question_count}})</button></a>  </li>
           <li class="space"><a ng-click = "objective_duplicate();" ><button class="btn btn-primary custom"> Duplicate (Count : {{duplicate_objective_question_count}})</button></a>  </li>
-          <li class="space"><a ng-click = "objective_rejected();" ><button class="btn btn-primary custom"> Rejected (Count : {{rejected_objective_question_count}})</button></a>  </li>        </ul>
+          <li class="space"><a ng-click = "objective_rejected();" ><button class="btn btn-primary custom"> Rejected (Count : {{rejected_objective_question_count}})</button></a>  </li>
+          <li class="space"><a ng-click = "objective_approved();" ><button class="btn btn-primary custom"> Approved (Count : {{approved_objective_question_count}})</button></a>  </li>
+        </ul>
       </div>
       </div>
     <div class="col col-md-6">
@@ -81,6 +83,7 @@
             <li class="space"><a ng-click = "subjective_processed();" ><button class="btn btn-primary custom"> Processed (Count : {{processed_subjective_question_count}})</button></a>  </li>
           <li class="space"><a ng-click = "subjective_duplicate();" ><button class="btn btn-primary custom"> Duplicate (Count : {{duplicate_subjective_question_count}})</button></a>  </li>
           <li class="space"><a ng-click = "subjective_rejected();" ><button class="btn btn-primary custom"> Rejected (Count : {{rejected_subjective_question_count}})</button></a>  </li>
+          <li class="space"><a ng-click = "subjective_approved();" ><button class="btn btn-primary custom"> Approved (Count : {{approved_subjective_question_count}})</button></a>  </li>
         </ul>
         
 

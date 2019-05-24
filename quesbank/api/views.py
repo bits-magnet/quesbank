@@ -137,11 +137,13 @@ def topic(request,sub_key,topic_key):
     processed_subjective_question_count = SubjectiveQuestion.objects.filter(state='processed', topic = topic).count()
     duplicate_subjective_question_count = SubjectiveQuestion.objects.filter(state='duplicate', topic = topic).count()
     rejected_subjective_question_count = SubjectiveQuestion.objects.filter(state='rejected', topic = topic).count()
+    approved_subjective_question_count = SubjectiveQuestion.objects.filter(state='approved', topic=topic).count()
     created_objective_question_count = ObjectiveQuestion.objects.filter(state='created', topic=topic).count()
     imported_objective_question_count = ObjectiveQuestion.objects.filter(state='imported', topic=topic).count()
     processed_objective_question_count = ObjectiveQuestion.objects.filter(state='processed', topic=topic).count()
     duplicate_objective_question_count = ObjectiveQuestion.objects.filter(state='duplicate', topic=topic).count()
     rejected_objective_question_count = ObjectiveQuestion.objects.filter(state='rejected', topic=topic).count()
+    approved_objective_question_count = ObjectiveQuestion.objects.filter(state='approved', topic=topic).count()
 
     context = {
         'subjectId': sub_key, 'topicId': topic_key,
@@ -151,11 +153,13 @@ def topic(request,sub_key,topic_key):
         'processed_subjective_question_count':processed_subjective_question_count,
         'duplicate_subjective_question_count':duplicate_subjective_question_count,
         'rejected_subjective_question_count':rejected_subjective_question_count,
+        'approved_subjective_question_count':approved_subjective_question_count,
         'created_objective_question_count':created_objective_question_count,
         'imported_objective_question_count' : imported_objective_question_count,
         'processed_objective_question_count':processed_objective_question_count,
         'duplicate_objective_question_count':duplicate_objective_question_count,
-        'rejected_objective_question_count':rejected_objective_question_count
+        'rejected_objective_question_count':rejected_objective_question_count,
+        'approved_objective_question_count':approved_objective_question_count
     }
     return render(request, 'topic.html', context)
 

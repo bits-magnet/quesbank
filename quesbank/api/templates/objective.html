@@ -28,7 +28,7 @@
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="../../../.">Home</a></li>
         </ul>
 
 
@@ -45,15 +45,12 @@
 
         <table class="table" ng-table ="tableParams"  class="table table-dark table-hover table-bordered" show-filter = "true">
             <tr ng-repeat="i in data.results" ng-attr-id="i.id">
-
                   <td data-title="'Question Id'"> {% verbatim %} {{i.id}} {% endverbatim %} </td>
                   <td data-title="'Question'"> <p ng-bind-html =  "i.question_html"></p> </td>
-
                   <td data-title="'Solution'"> <p ng-bind-html = "i.solution_html"> </p> </td>
-
                   <td data-title = "'Status'" class="">
                     <button type="button" class="btn btn-primary btn-block" name="Edit" ng-click = "editQuestion(i.id);" > Edit </button>
-                    <button type="button" class="btn btn-warning btn-block" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
+                    <button ng-show = "showduplicate" type="button" class="btn btn-warning btn-block" name="See Duplicates" ng-click = "seeDuplicates(i.id);" > See Duplicates </button>
                   </td>
             </tr>
         </table>

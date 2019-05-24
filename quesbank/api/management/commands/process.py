@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 import os
 from os.path import dirname
 from api.models import *
-from .services.getSimilarity import get_sim_matrix
+from .services.get_similarity import get_sim_matrix
 
 
 class Command(BaseCommand):

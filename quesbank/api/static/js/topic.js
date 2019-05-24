@@ -37,6 +37,11 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
 		$window.location.href = makeUrl(URL2, $scope.topic_id,$scope.state);
 	}
 
+	$scope.objective_approved = function() {
+		$scope.state = "approved";
+		$window.location.href = makeUrl(URL2, $scope.topic_id,$scope.state);
+	}
+
 	$scope.subjective_imported = function() {
 		$scope.state = "imported";
 		$window.location.href = makeUrl(URL1, $scope.topic_id,$scope.state);
@@ -57,6 +62,10 @@ myApp.controller('mainController', ['$scope','$http','$location','NgTableParams'
 
 	$scope.subjective_rejected = function() {
 		$scope.state = "rejected";
+		$window.location.href = makeUrl(URL1, $scope.topic_id,$scope.state);
+	}
+	$scope.subjective_approved = function() {
+		$scope.state = "approved";
 		$window.location.href = makeUrl(URL1, $scope.topic_id,$scope.state);
 	}
 

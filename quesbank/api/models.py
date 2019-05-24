@@ -179,6 +179,3 @@ class ArchievedObjectiveQuestion(models.Model):
     def __str__(self):
         return self.question_html
 
-
-class TestModel(models.Model):
-    content = RichTextUploadingField()

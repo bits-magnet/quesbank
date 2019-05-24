@@ -94,7 +94,7 @@ TEMPLATE_DIRS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'jsonparser1',
+        'NAME': 'jsonparser2',
         'USER': 'postgres',
         'PASSWORD': 'aditya123',
         'HOST': 'localhost',
