@@ -20,7 +20,7 @@ class StandardList(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = StandardSerializer
     queryset = Standard.objects.all()
-    filter_backends = (DjangoFilterBackend,filters.OrderingFilter,filters.SearchFilter)
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
     filter_fields = '__all__'
     ordering_fields = '__all__'
 

@@ -8,6 +8,7 @@ class StandardSerializer(serializers.ModelSerializer):
         model = Standard
         fields = '__all__'
 
+
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
@@ -17,6 +18,7 @@ class TopicSerializer(serializers.ModelSerializer):
 class SubjectSerializer(serializers.ModelSerializer):
     standard = StandardSerializer(read_only=True)
     topic = TopicSerializer(source='topic_set', many=True)
+
     class Meta:
         model = Subject
         depth = 1
@@ -55,6 +57,7 @@ class ObjectiveQuestionSerializer(serializers.ModelSerializer):
 
 class SimilarSubjectiveQuestionSerializer(serializers.ModelSerializer):
     question = QuestionSerializer(read_only=True)
+
     class Meta:
         model = SimilarSubjectiveQuestion
         fields = '__all__'

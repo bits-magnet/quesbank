@@ -6,13 +6,27 @@ from api.models import *
 from bs4 import BeautifulSoup as BS
 from os.path import basename, splitext
 
+from shutil import copy2
+#
+# copy2('absolute_path_source', 'absolute_path_destination')
+
 
 def process_image_src_html(html, standard, subject, book, topics):
     base_dir = dirname(dirname(dirname(dirname(os.path.abspath(__file__)))))
-    location = '/media/upload/' + 'books' + '/' + standard + '/' + subject + '/' + book + '/html' + '/' + topics + '/' + 'img' + '/'
+    location = '\\media\\upload\\' + 'books' + '\\' + standard + '\\' + subject + '\\' + book + '\\html' + '\\' + topics + '\\'
     soup = BS(html, features='html.parser')
     for img in soup.findAll('img'):
-        img['src'] = location + splitext(basename(img['src']))[0] + splitext(basename(img['src']))[1]
+        image_original_srcs = img['src']
+        image_original_src = ''
+        for a in image_original_srcs:
+            if a == '/':
+                image_original_src += '\\'
+            else:
+                image_original_src += a
+        img['src'] = image_original_src
+        img['src'] = location + img['src']
+        os.makedirs(base_dir + '\\quesbank' + '\\'.join(img['src'].split('\\')[:-1]), exist_ok=True)
+        copy2(base_dir+'\\books\\'+standard+'\\'+subject+'\\'+book+'\\html\\'+topics+'\\'+image_original_src, base_dir + '\\quesbank'  + img['src'])
     converted_html = str(soup)
     return converted_html
 
